@@ -35,7 +35,7 @@ public class Game {
 						input = scanner.nextLine();
 						if (input.equalsIgnoreCase("Y") || input.equalsIgnoreCase("YES")) {
 							root = root.getLeftChild();
-						} else {
+						} else if (input.equalsIgnoreCase("N") || input.equalsIgnoreCase("NO")) {
 							root = root.getRightChild();
 						}
 					} else {
@@ -43,7 +43,7 @@ public class Game {
 						input = scanner.nextLine();
 						if (input.equalsIgnoreCase("Y") || input.equalsIgnoreCase("YES")) {
 							root = root.getLeftChild();
-						} else {
+						} else if (input.equalsIgnoreCase("N") || input.equalsIgnoreCase("NO")) {
 							root = root.getRightChild();
 						}
 						
@@ -51,16 +51,16 @@ public class Game {
 					
 				}
 				
-				if(input.equalsIgnoreCase("Y") || input.equalsIgnoreCase("YES")){
+				if (input.equalsIgnoreCase("Y") || input.equalsIgnoreCase("YES")){
 					System.out.println("I'm so smart!");
-				} else {
+				} else if (input.equalsIgnoreCase("N") || input.equalsIgnoreCase("NO")){
 					System.out.println("Who are you thinking of?");
 					newCeleb = scanner.nextLine();
 					System.out.println("Ask a yes/no question that would distinguish between " + celeb.getValue() + " and " + newCeleb);
 					newQuestion = scanner.nextLine();
 					System.out.println("Would a answer of yes indicate " + newCeleb + "?");
 					input = scanner.nextLine();
-					if(input.equalsIgnoreCase("Y") || input.equalsIgnoreCase("YES")){
+					if (input.equalsIgnoreCase("Y") || input.equalsIgnoreCase("YES")){
 						Node newCelebNode = new Node(newQuestion);
 						
 						gameTree.insertNode(celeb, newCelebNode, false);
@@ -70,7 +70,7 @@ public class Game {
 					} else if (input.equalsIgnoreCase("N") || input.equalsIgnoreCase("NO")) {
 						Node newCelebNode = new Node(newQuestion);
 						
-						gameTree.insertNode(celeb, newCelebNode, true);
+						gameTree.insertNode(celeb, newCelebNode, true); //might have been missing last night with other code
 						newCelebNode.setRightChild(new Node(newCelebNode, null, null, newCeleb));
 						
 						System.out.println("Thank you for adding " + newCeleb + " to the database.");

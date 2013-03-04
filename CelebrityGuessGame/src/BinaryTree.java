@@ -33,19 +33,30 @@ public class BinaryTree {
 	}
 	
 	public void insertNode(Node rootNode, Node newNode, boolean left){
+		
 		if (rootNode == root) {
 			root = newNode;
-			root.setParent(newNode);
+			root.setParent(null);
 			rootNode.setParent(root);
 		} 
 		if (left){
-			rootNode.getParent().setLeftChild(newNode);
-			newNode.setParent(rootNode);
+			if (rootNode.getParent().getRightChild() == rootNode && rootNode.getParent().getRightChild().getLeftChild() == null && rootNode.getParent().getRightChild().getRightChild() == null) {
+				rootNode.getParent().setRightChild(newNode);
+			} else {
+				rootNode.getParent().setLeftChild(newNode);
+			}
+			
+			newNode.setParent(rootNode.getParent());
 			rootNode.setParent(newNode);
 			newNode.setLeftChild(rootNode);
 		} else {
-			rootNode.getParent().setRightChild(newNode);
-			newNode.setParent(rootNode);
+			if(rootNode.getParent().getLeftChild() == rootNode && rootNode.getParent().getLeftChild().getLeftChild() == null && rootNode.getParent().getLeftChild().getRightChild() == null){
+				rootNode.getParent().setLeftChild(newNode);
+			} else {
+				rootNode.getParent().setRightChild(newNode);
+			}
+			
+			newNode.setParent(rootNode.getParent()); 
 			rootNode.setParent(newNode);
 			newNode.setRightChild(rootNode);
 			
