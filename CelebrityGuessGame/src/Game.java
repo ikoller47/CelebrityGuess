@@ -62,31 +62,17 @@ public class Game {
 					input = scanner.nextLine();
 					if(input.equalsIgnoreCase("Y") || input.equalsIgnoreCase("YES")){
 						Node newCelebNode = new Node(newQuestion);
+						
 						gameTree.insertNode(celeb, newCelebNode, false);
-//						if (celeb.equals(gameTree.getRoot())) {
-//							gameTree.root = newCelebNode;
-//							gameTree.root.setParent(newCelebNode);
-//							celeb.setParent(gameTree.root);
-//						}
-//						celeb.getParent().setRightChild(newCelebNode);
-//						newCelebNode.setParent(celeb);
-//						celeb.setParent(newCelebNode);
 						newCelebNode.setLeftChild(new Node(newCelebNode, null, null, newCeleb));
-//						newCelebNode.setRightChild(celeb);
+						
 						System.out.println("Thank you for adding " + newCeleb + " to the database.");
 					} else if (input.equalsIgnoreCase("N") || input.equalsIgnoreCase("NO")) {
 						Node newCelebNode = new Node(newQuestion);
+						
 						gameTree.insertNode(celeb, newCelebNode, true);
-//						if (celeb.equals(gameTree.getRoot())) {
-//							gameTree.root = newCelebNode;
-//							gameTree.root.setParent(newCelebNode);
-//							celeb.setParent(gameTree.root);
-//						}	
-//						celeb.getParent().setLeftChild(newCelebNode);
-//						newCelebNode.setParent(celeb);
-//						celeb.setParent(newCelebNode);
-//						newCelebNode.setLeftChild(celeb);
 						newCelebNode.setRightChild(new Node(newCelebNode, null, null, newCeleb));
+						
 						System.out.println("Thank you for adding " + newCeleb + " to the database.");
 					}
 				}
