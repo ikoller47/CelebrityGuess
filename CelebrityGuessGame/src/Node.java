@@ -61,5 +61,18 @@ public class Node {
 	public void setValue(String value) {
 		this.value = value;
 	}
+	
+	public String toString() {
+		String str = "Value: " + this.value;
+		if(this.leftChild != null)
+			str += ", Left Child: " + this.leftChild.value;
+		else
+			str += ", Left Child: null";
+		if(this.rightChild != null)
+			str += ", Right Child: " + this.rightChild.value;
+		else
+			str += ", Right Child: null";
+		return str;
+	}
 
 }

@@ -75,8 +75,12 @@ public class Game {
 						
 						System.out.println("Thank you for adding " + newCeleb + " to the database.");
 					}
+					System.out.println("\n");
+					gameTree.printTree(gameTree.getRoot(), "Root");
+					System.out.println("\n");
 				}
 			} else {
+				scanner.close();
 				System.exit(0);
 			}
 		}
