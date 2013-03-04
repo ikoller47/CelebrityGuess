@@ -51,4 +51,13 @@ public class BinaryTree {
 			
 		}
 	}
+	
+	public void printTree(Node node, String source) {
+		Node activeNode = node;
+		System.out.println(source + " " + activeNode.toString());
+		if(activeNode.getLeftChild() != null)
+			printTree(activeNode.getLeftChild(), "Left");
+		if(activeNode.getRightChild() != null)
+			printTree(activeNode.getRightChild(), "Right");
+	}
 }

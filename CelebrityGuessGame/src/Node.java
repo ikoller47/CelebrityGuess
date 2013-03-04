@@ -64,6 +64,7 @@ public class Node {
 	
 	public String toString() {
 		String str = "Value: " + this.value;
+    str += ", Parent: " + this.parent.value;
 		if(this.leftChild != null)
 			str += ", Left Child: " + this.leftChild.value;
 		else
