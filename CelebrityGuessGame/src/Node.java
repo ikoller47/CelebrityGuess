@@ -1,17 +1,25 @@
 
 public class Node {
-	Node parent;
-	Node leftChild;
-	Node rightChild;
-	String question;
-	String answer;
+	
+	private Node parent;
+	private Node leftChild;
+	private Node rightChild;
+//	String question;
+	private String value;
 
-	Node(Node parent, Node leftChild, Node rightChild, String question, String answer) {
+	Node(Node parent, Node leftChild, Node rightChild, String value) {
 		this.parent = parent;
 		this.leftChild = leftChild;
 		this.rightChild = rightChild;
-		this.question = question;
-		this.answer = answer;
+//		this.question = question;
+		this.value = value;
+	}
+	
+	Node(String value){
+		this.parent = null;
+		this.leftChild = null;
+		this.rightChild = null;
+		this.value = value;
 	}
 	
 	public Node getParent() {
@@ -38,20 +46,20 @@ public class Node {
 		this.leftChild = leftChild;
 	}
 	
-	public String getQuestion() {
-		return question;
+//	public String getQuestion() {
+//		return question;
+//	}
+//	
+//	public void setQuestion(String question) {
+//		this.question = question;
+//	}
+	
+	public String getValue() {
+		return value;
 	}
 	
-	public void setQuestion(String question) {
-		this.question = question;
-	}
-	
-	public String getAnswer() {
-		return answer;
-	}
-	
-	public void setAnswer(String answer) {
-		this.answer = answer;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 }
