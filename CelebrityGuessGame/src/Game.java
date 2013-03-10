@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class Game implements Runnable {
     
@@ -7,6 +8,7 @@ public class Game implements Runnable {
     private BufferedWriter outToClient;
     private RandomAccessFile randomAccessFile;
     private Socket s;
+    private Player player;
     BinaryTree gameTree;
     
     public Game(Socket s, BinaryTree tree) throws IOException {
@@ -17,6 +19,23 @@ public class Game implements Runnable {
         randomAccessFile = new RandomAccessFile("CelebTreeFile.txt", "rwd");
     }
     
+    public void notifyGuessed(String celebrity, String playerName)
+    {
+    	ArrayList<String> celebritiesAdded = player.getCelebritiesAdded();
+    	
+    	if(celebritiesAdded.contains(celebrity))
+    	{
+    		try{	
+    			outToClient.write(playerName +  " thought of " + celebrity + " too!\n");
+            	outToClient.flush();
+    		}
+    		catch (IOException e) {
+                System.out.println(e);
+            } 
+    		
+    	}
+    }
+    
     public void run() {
     	
     	Node celeb = null;
@@ -24,11 +43,14 @@ public class Game implements Runnable {
 		String newQuestion = "";
 		String playerName = "";
 		
+		Driver d = new Driver();		
+		
         try {
         	
         	outToClient.write("What is your name?\n");
         	outToClient.flush();
         	playerName = inFromClient.readLine();
+        	player = new Player(playerName);
         	
         	while(true){
     			
@@ -67,6 +89,8 @@ public class Game implements Runnable {
     				if (clientMessage.equalsIgnoreCase("Y") || clientMessage.equalsIgnoreCase("YES")){
     					outToClient.write("I'm so smart!\n");
     					outToClient.flush();
+    					
+    					d.notifyUser(celeb.getValue(), player.getName());
     				} else if (clientMessage.equalsIgnoreCase("N") || clientMessage.equalsIgnoreCase("NO")){
     					outToClient.write("Who are you thinking of?\n");
     					outToClient.flush();
@@ -94,8 +118,13 @@ public class Game implements Runnable {
     						randomAccessFile.write(tree.getBytes(), 0, tree.length());
     						gameTree.treeString = "";
     						
+    						ArrayList<String> playerAdded = player.getCelebritiesAdded();
+    						playerAdded.add(newCeleb);
+    						player.setCelebritiesAdded(playerAdded);
+    						
     						outToClient.write("Thank you for adding " + newCeleb + " to the database.\n");
     						outToClient.flush();
+    						
     					} else if (clientMessage.equalsIgnoreCase("N") || clientMessage.equalsIgnoreCase("NO")) {
     						Node newCelebNode = new Node(newQuestion);
     						
@@ -108,6 +137,11 @@ public class Game implements Runnable {
     						randomAccessFile.seek(0);
     						randomAccessFile.write(tree.getBytes(), 0, tree.length());
     						gameTree.treeString = "";
+    						
+    						ArrayList<String> playerAdded = player.getCelebritiesAdded();
+    						playerAdded.add(newCeleb);
+    						player.setCelebritiesAdded(playerAdded);
+    						System.out.println(playerAdded);
     						
     						outToClient.write("Thank you for adding " + newCeleb + " to the database.\n");
     						outToClient.flush();
