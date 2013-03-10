@@ -4,6 +4,7 @@ import java.util.List;
 public class BinaryTree {
 	
 	Node root;
+	String treeString = "";
 	
 	List<Node> tree = new ArrayList<Node>();
 
@@ -11,6 +12,7 @@ public class BinaryTree {
 		root = new Node(null,null,null,value);
 		//tree.add(new Node(null,null,null,"",answer));
 	}
+	
 	
 //	BinaryTree(String question,String answer) {
 //		tree.add(new Node(null,null,null,question,answer));
@@ -62,4 +64,26 @@ public class BinaryTree {
 			
 		}
 	}
+	
+	public String tranverseTree(Node newNode){
+		if (newNode == null) {
+			return null;
+		} else {
+			String temp = "";
+			if (newNode == root) {
+				temp = new String(newNode.getValue());
+			} else {
+				temp = new String("\n" + newNode.getValue());
+			}
+				
+			for (int i = 0; i < (80-temp.length())+temp.length(); i++) {
+				temp += " ";
+			}
+			treeString += new String(temp.getBytes(), 0, 80);
+			tranverseTree(newNode.getLeftChild());
+			tranverseTree(newNode.getRightChild());
+		}
+		return treeString;
+	}
+	
 }
