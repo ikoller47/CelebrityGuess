@@ -4,12 +4,19 @@ import java.util.List;
 public class BinaryTree {
 	
 	Node root;
+	int nodeCount;
 	String treeString = "";
 	
 	List<Node> tree = new ArrayList<Node>();
+	
+	BinaryTree() {
+		nodeCount = 0;
+	}
 
 	BinaryTree(String value) {
-		root = new Node(null,null,null,value);
+		nodeCount = 0;
+		root = new Node(nodeCount,null,null,null,value);
+		tree.add(root);
 		//tree.add(new Node(null,null,null,"",answer));
 	}
 	
@@ -23,49 +30,52 @@ public class BinaryTree {
 		//return tree.get(0);
 	}
 	
-	public Node addNode(Node parent, String value) {
-		Node newNode = new Node(parent,null,null,value);
+	public Node addNode(Integer parent, String value) {
+		nodeCount++;
+		Node newNode = new Node(nodeCount, parent,null,null,value);
 		tree.add(newNode);
 		return newNode;
 	}
 	
-	public Node addNode(Node node){
-		tree.add(node);
-		return node;
+	public Node addNode(Integer id, Integer parent, Integer leftChild, Integer rightChild, String value) {
+		nodeCount++;
+		Node newNode = new Node(id, parent, leftChild, rightChild, value);
+		tree.add(newNode);
+		return newNode;
 	}
 	
-	public void insertNode(Node rootNode, Node newNode, boolean left){
+	public void insertNode(Node oldNode, Node newNode, boolean left){
 		
-		if (rootNode == root) {
+		if (oldNode == root) {
 			root = newNode;
 			root.setParent(null);
-			rootNode.setParent(root);
+			oldNode.setParent(root.getId());
 		} 
 		if (left){
-			if (rootNode.getParent().getRightChild() == rootNode && rootNode.getParent().getRightChild().getLeftChild() == null && rootNode.getParent().getRightChild().getRightChild() == null) {
-				rootNode.getParent().setRightChild(newNode);
+			if (tree.get(oldNode.getParent()).getRightChild() == oldNode.getId() && tree.get(tree.get(oldNode.getParent()).getRightChild()).getLeftChild() == null && tree.get(tree.get(oldNode.getParent()).getRightChild()).getRightChild() == null) {
+				tree.get(oldNode.getParent()).setRightChild(newNode.getId());
 			} else {
-				rootNode.getParent().setLeftChild(newNode);
+				tree.get(oldNode.getParent()).setLeftChild(newNode.getId());
 			}
 			
-			newNode.setParent(rootNode.getParent());
-			rootNode.setParent(newNode);
-			newNode.setLeftChild(rootNode);
+			newNode.setParent(oldNode.getParent());
+			oldNode.setParent(newNode.getId());
+			newNode.setLeftChild(oldNode.getId());
 		} else {
-			if(rootNode.getParent().getLeftChild() == rootNode && rootNode.getParent().getLeftChild().getLeftChild() == null && rootNode.getParent().getLeftChild().getRightChild() == null){
-				rootNode.getParent().setLeftChild(newNode);
+			if(tree.get(oldNode.getParent()).getLeftChild() == oldNode.getId() && tree.get(tree.get(oldNode.getParent()).getLeftChild()).getLeftChild() == null && tree.get(tree.get(oldNode.getParent()).getLeftChild()).getRightChild() == null){
+				tree.get(oldNode.getParent()).setLeftChild(newNode.getId());
 			} else {
-				rootNode.getParent().setRightChild(newNode);
+				tree.get(oldNode.getParent()).setRightChild(newNode.getId());
 			}
 			
-			newNode.setParent(rootNode.getParent()); 
-			rootNode.setParent(newNode);
-			newNode.setRightChild(rootNode);
+			newNode.setParent(oldNode.getParent()); 
+			oldNode.setParent(newNode.getId());
+			newNode.setRightChild(oldNode.getId());
 			
 		}
 	}
 	
-	public String tranverseTree(Node newNode){
+	public String traverseTree(Node newNode){
 		if (newNode == null) {
 			return null;
 		} else {
@@ -79,9 +89,10 @@ public class BinaryTree {
 			for (int i = 0; i < (80-temp.length())+temp.length(); i++) {
 				temp += " ";
 			}
-			treeString += new String(temp.getBytes(), 0, 80);
-			tranverseTree(newNode.getLeftChild());
-			tranverseTree(newNode.getRightChild());
+//			treeString += new String(temp.getBytes(), 0, 80);
+			treeString += temp;
+			traverseTree(tree.get(newNode.getLeftChild()));
+			traverseTree(tree.get(newNode.getRightChild()));
 		}
 		return treeString;
 	}
