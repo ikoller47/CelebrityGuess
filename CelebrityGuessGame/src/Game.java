@@ -36,6 +36,28 @@ public class Game implements Runnable {
     	}
     }
     
+    public static String fixBackspace(String s){
+    	StringBuilder sb = new StringBuilder();
+    	int backspaceCount = 0;
+    	boolean lastCharacterWasBackspace = false;
+    	
+    	for (int i=0; i<s.length(); i++){
+    		sb.append(s.charAt(i));
+    		if(s.charAt(i) == '\b'){
+    			backspaceCount += 1;
+    			lastCharacterWasBackspace = true;
+    		}	
+    		else{
+    			if(lastCharacterWasBackspace){
+    				sb.delete(sb.length() - 1 - (backspaceCount * 2), sb.length() - 1);
+    				backspaceCount = 0;
+    				lastCharacterWasBackspace = false;
+    			}	
+    		}
+    	}
+    	return sb.toString();	
+    }
+    
     public void run() {
     	
     	Node celeb = null;
@@ -50,6 +72,7 @@ public class Game implements Runnable {
         	outToClient.write("What is your name?\n");
         	outToClient.flush();
         	playerName = inFromClient.readLine();
+        	playerName = fixBackspace(playerName);
         	player = new Player(playerName);
         	
         	while(true){
@@ -59,6 +82,7 @@ public class Game implements Runnable {
     			outToClient.write("Hello " + playerName + ", Would you like to play a celebrity guessing game?\n");
     			outToClient.flush();
     			String clientMessage = inFromClient.readLine();
+                clientMessage = fixBackspace(clientMessage);
                 
     			if (clientMessage.equalsIgnoreCase("Y") || clientMessage.equalsIgnoreCase("YES")) {
     				while(root != null){
@@ -67,6 +91,8 @@ public class Game implements Runnable {
     						outToClient.write("Is the celebrity you are thinking of " + celeb.getValue() + "?\n");
     						outToClient.flush();
     						clientMessage = inFromClient.readLine();
+    		                clientMessage = fixBackspace(clientMessage);
+    		                
     						if (clientMessage.equalsIgnoreCase("Y") || clientMessage.equalsIgnoreCase("YES")) {
     							root = root.getLeftChild();
     						} else if (clientMessage.equalsIgnoreCase("N") || clientMessage.equalsIgnoreCase("NO")) {
@@ -76,6 +102,8 @@ public class Game implements Runnable {
     						outToClient.write(root.getValue() + "\n");
     						outToClient.flush();
     						clientMessage = inFromClient.readLine();
+    		                clientMessage = fixBackspace(clientMessage);
+    		                
     						if (clientMessage.equalsIgnoreCase("Y") || clientMessage.equalsIgnoreCase("YES")) {
     							root = root.getLeftChild();
     						} else if (clientMessage.equalsIgnoreCase("N") || clientMessage.equalsIgnoreCase("NO")) {
@@ -95,12 +123,16 @@ public class Game implements Runnable {
     					outToClient.write("Who are you thinking of?\n");
     					outToClient.flush();
     					newCeleb = inFromClient.readLine();
+		                newCeleb = fixBackspace(newCeleb);
     					outToClient.write("Ask a yes/no question that would distinguish between " + celeb.getValue() + " and " + newCeleb + "\n");
     					outToClient.flush();
     					newQuestion = inFromClient.readLine();
+		                newQuestion = fixBackspace(newQuestion);
     					outToClient.write("Would a answer of yes indicate " + newCeleb + "?\n");
     					outToClient.flush();
     					clientMessage = inFromClient.readLine();
+    	                clientMessage = fixBackspace(clientMessage);
+    	                
     					if (clientMessage.equalsIgnoreCase("Y") || clientMessage.equalsIgnoreCase("YES")){
     						Node newCelebNode = new Node(newQuestion);
     						
@@ -141,7 +173,6 @@ public class Game implements Runnable {
     						ArrayList<String> playerAdded = player.getCelebritiesAdded();
     						playerAdded.add(newCeleb);
     						player.setCelebritiesAdded(playerAdded);
-    						System.out.println(playerAdded);
     						
     						outToClient.write("Thank you for adding " + newCeleb + " to the database.\n");
     						outToClient.flush();
