@@ -20,23 +20,6 @@ public class Game implements Runnable {
         randomAccessFile = new RandomAccessFile("CelebTreeFile.txt", "rwd");
     }
     
-    public void notifyGuessed(String celebrity, String playerName)
-    {
-    	ArrayList<String> celebritiesAdded = player.getCelebritiesAdded();
-    	
-    	if(celebritiesAdded.contains(celebrity))
-    	{
-    		try{	
-    			outToClient.write(playerName +  " thought of " + celebrity + " too!\n");
-            	outToClient.flush();
-    		}
-    		catch (IOException e) {
-                System.out.println(e);
-            } 
-    		
-    	}
-    }
-    
     public static String fixBackspace(String s){
     	StringBuilder sb = new StringBuilder();
     	int backspaceCount = 0;
@@ -77,7 +60,7 @@ public class Game implements Runnable {
         		randomAccessFile.seek(gameTree.root.getId()*92);
 			} else {
 				readTree(randomAccessFile);
-//				System.out.println(gameTree.tree);
+				System.out.println(gameTree.tree);
 			}
         	
         	outToClient.write("What is your name?\n");
@@ -89,11 +72,26 @@ public class Game implements Runnable {
         	while(true){
     			
     			Integer root = gameTree.root.getId();
+    			String clientMessage = ""; 
+    			boolean answered = false;
     			
-    			outToClient.write("Hello " + playerName + ", Would you like to play a celebrity guessing game?\n");
-    			outToClient.flush();
-    			String clientMessage = inFromClient.readLine();
-                clientMessage = fixBackspace(clientMessage);
+//    			outToClient.write("Hello " + playerName + ", Would you like to play a celebrity guessing game?\n");
+//    			outToClient.flush();
+    			
+    	        while(!answered) {   
+    	        	outToClient.write("Hello " + playerName + ", Would you like to play a celebrity guessing game?\n");
+    	        	outToClient.flush();
+    	        	clientMessage = inFromClient.readLine();
+    	        	clientMessage = fixBackspace(clientMessage);
+    	        	if(clientMessage.equalsIgnoreCase("Y")){
+    	        		answered = true;
+    	        	} else if (clientMessage.equalsIgnoreCase("N")){
+    	        		answered = true;
+    	        	}   
+    	        }
+    			
+//    			clientMessage = inFromClient.readLine();
+//                clientMessage = fixBackspace(clientMessage);
                 
     			if (clientMessage.equalsIgnoreCase("Y") || clientMessage.equalsIgnoreCase("YES")) {
     				while(root != null){
@@ -143,6 +141,7 @@ public class Game implements Runnable {
     					outToClient.flush();
     					clientMessage = inFromClient.readLine();
     	                clientMessage = fixBackspace(clientMessage);
+    	                Node newCelebNode = null;
     	                
     					if (clientMessage.equalsIgnoreCase("Y") || clientMessage.equalsIgnoreCase("YES")){
     						newCelebNode = gameTree.addNode(celeb.getParent(), newQuestion);
@@ -186,7 +185,7 @@ public class Game implements Runnable {
     					randomAccessFile.seek(newCelebNode.getParent()*92);
     					randomAccessFile.write(gameTree.tree.get(newCelebNode.getParent()).toString().getBytes());
     					
-//    					System.out.println(gameTree.tree);
+    					System.out.println(gameTree.tree);
     				}
     			} else {
     				s.close();
