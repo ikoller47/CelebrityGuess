@@ -15,9 +15,10 @@ public class Driver {
     
     public static void main(String argv[]) throws Exception
     {
-		BinaryTree tree = new BinaryTree("Barack Obama");
-		tree.root.setId(0);
-		Integer a = 0;
+//		BinaryTree tree = new BinaryTree("Barack Obama");
+//		tree.root.setId(0);
+    	
+    	BinaryTree tree = new BinaryTree();
 		
         ServerSocket welcomeSocket = new ServerSocket(6001);
         System.out.println("Server is up...");

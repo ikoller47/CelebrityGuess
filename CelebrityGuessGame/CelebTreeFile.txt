@@ -1,7 +1,1 @@
-Has your celebrity ever been president?                                         
-Is your celebrity from Texas?                                                  
-Gearge Bush                                                                    
-Barack Obama                                                                   
-Is your celebrity a female?                                                    
-Betty White                                                                    
-Adam Sandler                                                                   
+0  5        Barack Obama                                                                    1  1  5  3  Politician?                                                                     2  3        Adam Sandler                                                                    3  1  4  2  Female?                                                                         4  3        Betty White                                                                     5  1  6  0  Texas?                                                                          6  5        George Bush                                                                     

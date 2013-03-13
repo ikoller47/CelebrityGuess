@@ -1,18 +1,18 @@
 
 public class Node {
 	
-	private Node parent;
-	private Node leftChild;
-	private Node rightChild;
+	private Integer parent;
+	private Integer leftChild;
+	private Integer rightChild;
 	private String value;
 	private Integer id;
 
-	Node(Node parent, Node leftChild, Node rightChild, String value) {
+	Node(Integer id, Integer parent, Integer leftChild, Integer rightChild, String value) {
 		this.parent = parent;
 		this.leftChild = leftChild;
 		this.rightChild = rightChild;
 		this.value = value;
-		this.id = null;
+		this.id = id;
 	}
 	
 	Node(String value){
@@ -23,27 +23,27 @@ public class Node {
 		this.id = null;
 	}
 	
-	public Node getParent() {
+	public Integer getParent() {
 		return parent;
 	}
 	
-	public void setParent(Node parent) {
+	public void setParent(Integer parent) {
 		this.parent = parent;
 	}
 	
-	public Node getRightChild() {
+	public Integer getRightChild() {
 		return rightChild;
 	}
 	
-	public void setRightChild(Node rightChild) {
+	public void setRightChild(Integer rightChild) {
 		this.rightChild = rightChild;
 	}
 	
-	public Node getLeftChild() {
+	public Integer getLeftChild() {
 		return leftChild;
 	}
 	
-	public void setLeftChild(Node leftChild) {
+	public void setLeftChild(Integer leftChild) {
 		this.leftChild = leftChild;
 	}
 	
@@ -61,6 +61,37 @@ public class Node {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public String toString(){
+		String idString = idString(id);
+		String parentIDString = idString(parent);
+		String leftIDString = idString(leftChild);
+		String rightIDString = idString(rightChild);
+		String valueIDString = value;
+
+		int temp = 80-valueIDString.length();
+		
+		for (int i = 0; i < temp; i++) {
+			valueIDString += " ";
+		}
+		
+		return idString +  parentIDString + leftIDString  + rightIDString + valueIDString;
+	}
+	
+	private String idString(Integer node){
+		String idString;
+		if (node == null) {
+			idString = " ";
+		} else {
+			idString = node.toString();
+		}
+		
+		for (int i = 0; i <= 3-idString.length(); i++) {
+			idString += " ";
+		}
+		
+		return idString;
 	}
 	
 }
